@@ -1,0 +1,103 @@
+@import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+* {
+    /*border: 1px solid;*/
+}
+
+.textbox {
+    height:50px;
+    width:70%;
+    font-size:30px;
+}
+
+.textboxlink {
+    width:55%;
+    text-align:center;
+}
+
+.tableform {
+    width:90%;
+    text-align:center;
+    margin:0 auto;
+}
+h1 {
+    font-size:30px;
+    margin:0px;
+}
+h2 {
+    font-size:25px;
+    margin:0px;
+}
+h3 {
+    font-size:20px;
+    margin:0px;
+}
+h4 {
+    font-size:18px;
+    margin:0px;
+}
+.middle {
+    min-height:400px;
+}
+.vmiddle {
+    vertical-align:middle !important;
+}
+.empty{
+    display: none;
+}
+.tableform th,.tableform td {
+    border-top:none !important;
+}
+.numberwidth {
+    width:20px;
+}
+.title {
+    font-size:25px;
+    margin-top:10px;
+}
+hr{
+    height: 1px;
+    background-color: #000000;
+}
+a{
+    text-decoration: none !important;
+}
+.avatar{
+    float: left;
+    margin: 0 10px 10px 0;
+    width: 64px;
+    height: 64px;
+}
+.threadtd{
+    vertical-align: top;
+}
+.profileSpan{
+    margin-left: 5px;
+}
+.note-group-select-from-files {
+  display: none !important;
+}
+.note-editor .note-editable {
+    line-height: 1 !important;
+}
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.site-content {
+  flex: 1;
+}
+.tableBorder{
+  border: 1px solid #000000 !important;
+}
+.customButton{
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}

@@ -1,0 +1,19 @@
+# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteCond %{REQUEST_URI}  !(videos) [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+RewriteRule ^(.+)$ index.php?p=$1 [QSA,L]
+
+#Edit values below
+
+php_value post_max_size 5000M
+php_value upload_max_filesize 5000M
+php_value max_execution_time 600
+LimitRequestBody 5368709120

@@ -1,0 +1,5 @@
+config.php
+/vendor/
+.vscode/sftp.json
+images/avatars/
+videos/users/
