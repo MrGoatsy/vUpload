@@ -1,4 +1,4 @@
--- Adminer 4.7.9 MySQL dump
+-- Adminer 4.8.0 MySQL 5.5.5-10.3.25-MariaDB-0ubuntu0.20.04.1 dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -73,14 +73,15 @@ CREATE TABLE `ranks` (
   `rankValue` int(10) DEFAULT NULL,
   PRIMARY KEY (`r_id`),
   UNIQUE KEY `rankValue` (`rankValue`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `ranks` (`r_id`, `rankName`, `rankValue`) VALUES
 (1,	'Admin',	999),
 (2,	'Moderator',	950),
 (3,	'Premium',	100),
 (4,	'User',	1),
-(5,	'Banned',	0);
+(5,	'Banned',	0)
+ON DUPLICATE KEY UPDATE `r_id` = VALUES(`r_id`), `rankName` = VALUES(`rankName`), `rankValue` = VALUES(`rankValue`);
 
 DROP TABLE IF EXISTS `reports`;
 CREATE TABLE `reports` (
@@ -88,7 +89,7 @@ CREATE TABLE `reports` (
   `wn_id` int(11) NOT NULL,
   `u_reporter_id` bigint(20) NOT NULL,
   `u_reported_id` bigint(20) NOT NULL,
-  `reason` varchar(255) NOT NULL,
+  `reportDate` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`rp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -153,7 +154,7 @@ CREATE TABLE `warningnames` (
   `warningInfo` varchar(255) DEFAULT NULL,
   `warningPoints` int(10) DEFAULT NULL,
   PRIMARY KEY (`wn_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `warningnames` (`wn_id`, `warningInfo`, `warningPoints`) VALUES
 (1,	'Spam or misleading content',	20),
@@ -161,7 +162,8 @@ INSERT INTO `warningnames` (`wn_id`, `warningInfo`, `warningPoints`) VALUES
 (3,	'Hateful or abusive content ',	20),
 (4,	'Harmful or dangerous acts',	20),
 (5,	'Child abuse',	100),
-(6,	'Promotes terrorism',	100);
+(6,	'Promotes terrorism',	100)
+ON DUPLICATE KEY UPDATE `wn_id` = VALUES(`wn_id`), `warningInfo` = VALUES(`warningInfo`), `warningPoints` = VALUES(`warningPoints`);
 
 DROP TABLE IF EXISTS `warnings`;
 CREATE TABLE `warnings` (
@@ -175,4 +177,4 @@ CREATE TABLE `warnings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2021-02-14 22:44:12
+-- 2021-02-18 23:58:53
