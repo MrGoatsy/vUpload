@@ -37,4 +37,4 @@ https://ffmpeg.org/
 7. It should be working now.
 
 #### Current problems
-1. Numerous, but it is still in alpha.
+1. None that are known
