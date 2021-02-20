@@ -87,10 +87,12 @@ DROP TABLE IF EXISTS `reports`;
 CREATE TABLE `reports` (
   `rp_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `wn_id` int(11) NOT NULL,
+  `v_id` bigint(20) NOT NULL,
   `u_reporter_id` bigint(20) NOT NULL,
   `u_reported_id` bigint(20) NOT NULL,
   `reportDate` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`rp_id`)
+  PRIMARY KEY (`rp_id`),
+  KEY `v_id` (`v_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -177,4 +179,4 @@ CREATE TABLE `warnings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2021-02-18 23:58:53
+-- 2021-02-19 19:00:31

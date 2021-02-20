@@ -81,10 +81,16 @@
                     ':wn_id' => $reportReason
                 ]);
 
-                $query = $this->handler->prepare('INSERT INTO reports (wn_id, u_reporter_id, u_reported_id) VALUES (:wn_id, :u_reporter_id, :u_reported_id)');
+                $queryV = $this->handler->prepare('SELECT * FROM videos WHERE v_fileName = :v_fileName');
+                $queryV->execute([
+                    ':v_fileName'   => $fileName
+                ]);
+
+                $query = $this->handler->prepare('INSERT INTO reports (wn_id, v_id, u_reporter_id, u_reported_id) VALUES (:wn_id, :v_id, :u_reporter_id, :u_reported_id)');
                 try{
                     $query->execute([
                         ':wn_id'            => $points->fetch(PDO::FETCH_ASSOC)['wn_id'],
+                        ':v_id'             => $queryV->fetch(PDO::FETCH_ASSOC)['v_id'],
                         ':u_reporter_id'    => $this->user->getUserId(),
                         ':u_reported_id'    => $fetch['u_id'],
                     ]);
@@ -174,7 +180,7 @@
         public function getRecentReports($amount = NULL){
             global $website_url;
             
-            $query = $this->handler->prepare('SELECT reports.*, u.username AS rBy, uo.username AS rr, warningnames.warningInfo FROM reports LEFT JOIN users AS u ON u.u_id = reports.u_reporter_id LEFT JOIN users AS uo ON uo.u_id = u_reported_id INNER JOIN warningnames ON warningnames.wn_id = reports.wn_id ORDER BY reports.reportDate DESC');
+            $query = $this->handler->prepare('SELECT reports.*, u.username AS rBy, uo.username AS rr, warningnames.warningInfo, videos.v_filename AS v_filename, videos.v_title AS title FROM reports LEFT JOIN users AS u ON u.u_id = reports.u_reporter_id LEFT JOIN users AS uo ON uo.u_id = u_reported_id LEFT JOIN warningnames ON warningnames.wn_id = reports.wn_id LEFT JOIN videos ON videos.v_id = reports.v_id ORDER BY reports.reportDate DESC');
             $query->execute();
                 
             $x = 0;
@@ -185,6 +191,9 @@
                     <tr style="' . (($x%2 == 0)? 'background: #e3e3e3' : '') . '">
                         <td>
                             ' . $fetch['warningInfo'] . '
+                        </td>
+                        <td>
+                            <a href="' . $website_url . '/watch?v=' . $fetch['v_filename'] . '">' . wordwrap($fetch['title'], 25, '<br />', true) . '</a>
                         </td>
                         <td>
                             <a href="' . $website_url . '/admin?a=users&warn=' . $fetch['rBy'] . '">' . $fetch['rBy'] . '</a>

@@ -41,6 +41,7 @@
                         <table class="w-100">
                             <tr>
                                 <td style="border-bottom: 1px solid;">Report reason</td>
+                                <td style="border-bottom: 1px solid;">Reported video</td>
                                 <td style="border-bottom: 1px solid;">Reported by</td>
                                 <td style="border-bottom: 1px solid;">Reported party</td>
                                 <td style="border-bottom: 1px solid;">Date</td>

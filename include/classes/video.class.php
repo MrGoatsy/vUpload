@@ -233,14 +233,14 @@
     
                     $video = $ffmpeg->open($movie);
                     $frame = $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($sec));
+
+                    $frame->save($thumbnail);
                     
                     $this->imageConverter->convert($thumbnail, $targetPath . '.jpg', 100);
                     unlink($thumbnail);
-
-                    $frame->save("videos/users/thumbnails/" . $thumbnail);
     
                     $query->execute([
-                        ':v_thumbnail'  => $thumbnail,
+                        ':v_thumbnail'  => $fileName,
                         ':v_id'         => $this->getDetails('', $fileName, 'id'),
                         ':u_id'         => $this->user->getUserId()
                     ]);
@@ -564,6 +564,7 @@
         //Get most recent videos from all users
         public function getRecentVideos($what, $optional = []){
             global $website_url;
+            
             if($what == 'count'){
                 if(isset($optional['all'])){
                     $query = $this->handler->prepare('SELECT COUNT(*) FROM videos');

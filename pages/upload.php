@@ -64,7 +64,7 @@
     });
 </script>
 <div id="result"></div>
-<form id="uploadForm" enctype="multipart/form-data" method="POST">
+<form id="uploadForm" enctype="multipart/form-data" onkeydown="return event.key != 'Enter';" method="POST">
     <div class="input-group margin-bottom-sm" style="margin-bottom: 5px;">
         <span class="input-group-text"><i class="bi bi-camera-video-fill"></i></i>&nbsp;Select video</span>
         <input class="form-control" id="video" type="file" name="video" accept="video/*" placeholder="Video" required/>
