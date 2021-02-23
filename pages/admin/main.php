@@ -42,11 +42,11 @@
                             <tr>
                                 <td style="border-bottom: 1px solid;">Report reason</td>
                                 <td style="border-bottom: 1px solid;">Reported video</td>
-                                <td style="border-bottom: 1px solid;">Reported by</td>
                                 <td style="border-bottom: 1px solid;">Reported party</td>
+                                <td style="border-bottom: 1px solid;">Reported by</td>
                                 <td style="border-bottom: 1px solid;">Date</td>
                             </tr>
-                            <?php echo $warning->getRecentReports(); ?>
+                            <?php echo $warning->getReports(['recent']); ?>
                         </table>
                     </td>
                 </tr>
@@ -107,8 +107,7 @@
                 }
         }
     });
-</script>
-<script>
+
     var ctx = document.getElementById('newVideos').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',

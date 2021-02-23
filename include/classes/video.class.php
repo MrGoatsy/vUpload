@@ -86,7 +86,7 @@
                                         echo $message;
                                     }
                                     else{
-                                        echo $videoMessage['externalError'];
+                                        return $videoMessage['externalError'];
                                         exit;
                                     }
                                 }
@@ -613,10 +613,13 @@
                     }
                     elseif($optional[0] == 'tags'){
                         $tags = explode(',', $fetch['v_tags']);
+                        $str = null;
 
                         foreach($tags as $tag){
-                            echo'<a href="' . $website_url . '/search?q=' . $tag . '">' . $tag . '</a>&nbsp;';
+                            $str .= '<a href="' . $website_url . '/search?q=' . $tag . '">' . $tag . '</a>&nbsp;';
                         }
+
+                        return $str;
                     }
                     elseif($optional[0] == 'username'){
                         return $fetch['username'];

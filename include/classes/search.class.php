@@ -116,7 +116,7 @@
                                 <a href="$website_url/channel/$username">
                                     $avatar
                                 </a>
-                                <a href="$website_url/admin?a=users&warn=$username" class="btn btn-sm btn-warning" style="color: black;">Warn</a>
+                                <a href="$website_url/admin?a=users&manage=$username" class="btn btn-sm btn-warning" style="color: black;">Manage</a>
                             </td>
                             <td class="w-100">
                                 <div style="margin-left: 10px;">

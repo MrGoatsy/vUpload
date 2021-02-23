@@ -1,10 +1,7 @@
 <?php
     if($user->logout()){
-        echo'<h3>You have been logged out</h3>' .  $redirectInTime;
+        echo'<h1>You have been logged out</h1>';
 
-        header('Refresh:0; url=' . $website_url);
-    }
-    elseif(!$user->loggedIn()){
-        echo $redirectInTime;
+        header('Location: ' . $website_url);
     }
 ?>

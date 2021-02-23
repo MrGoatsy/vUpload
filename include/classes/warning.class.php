@@ -51,12 +51,12 @@
                             ':username' => $username
                         ]);
                     }
-                    header('Location: ' . $website_url . '/admin?a=users&warn=' . $username);
+                    header('Location: ' . $website_url . '/admin?a=users&manage=' . $username);
                 }
 
             }
             else{
-                header('Location: ' . $website_url . '/admin?a=users&warn=' . $username);
+                header('Location: ' . $website_url . '/admin?a=users&manage=' . $username);
             }
         }
 
@@ -117,24 +117,36 @@
             }
         }
 
-        public function getReports($username){
+        public function getReports($optional = null){
             global $website_url;
 
-            $query = $this->handler->prepare('SELECT reports.*, users.username AS rBy, warningnames.warningInfo FROM reports LEFT JOIN users ON users.u_id = reports.u_reporter_id INNER JOIN warningnames ON warningnames.wn_id = reports.wn_id WHERE u_reported_id = (SELECT u_id FROM users WHERE username = :username)');
-            $query->execute([
-                ':username' => $username
-            ]);
+            if($optional[0] == 'recent'){
+                $query = $this->handler->prepare('SELECT reports.*, u.username AS rBy, uo.username AS rr, warningnames.warningInfo, videos.v_filename AS v_filename, videos.v_title AS title FROM reports LEFT JOIN users AS u ON u.u_id = reports.u_reporter_id LEFT JOIN users AS uo ON uo.u_id = u_reported_id LEFT JOIN warningnames ON warningnames.wn_id = reports.wn_id LEFT JOIN videos ON videos.v_id = reports.v_id ORDER BY reports.reportDate DESC');
+                $query->execute();
+            }
+            else{
+                $query = $this->handler->prepare('SELECT reports.*, users.username AS rBy, warningnames.warningInfo, videos.v_title AS title FROM reports LEFT JOIN users ON users.u_id = reports.u_reporter_id LEFT JOIN warningnames ON warningnames.wn_id = reports.wn_id LEFT JOIN videos ON videos.v_id = reports.v_id WHERE u_reported_id = (SELECT u_id FROM users WHERE username = :username)');
+                $query->execute([
+                    ':username' => $optional[0]
+                ]);
+            }
             
                 $x = 0;
                 $str = null;
             while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
                 $str .= '
-                    <tr style="border-right: 1px solid; ' . (($x%2 == 0)? 'background: #e3e3e3' : '') . '">
+                    <tr style="' . (($x%2 == 0)? 'background: #e3e3e3' : '') . '">
                         <td>
                             ' . $fetch['warningInfo'] . '
                         </td>
                         <td>
-                            <a href="' . $website_url . '/admin?a=users&warn=' . $fetch['rBy'] . '">' . $fetch['rBy'] . '</a>
+                            <a href="' . $website_url . '/watch?v=' . $fetch['v_filename'] . '">' . wordwrap($fetch['title'], 25, '<br />', true) . '</a>
+                        </td>
+                        <td>
+                            <a href="' . $website_url . '/admin?a=users&manage=' . $fetch['rr'] . '">' . $fetch['rr'] . '</a>
+                        </td>
+                        <td>
+                            <a href="' . $website_url . '/admin?a=users&manage=' . $fetch['rBy'] . '">' . $fetch['rBy'] . '</a>
                         </td>
                         <td>
                             ' . $fetch['reportDate'] . '
@@ -164,45 +176,13 @@
                             ' . $fetch['warningInfo'] . '
                         </td>
                         <td>
-                            <a href="' . $website_url . '/admin?a=users&warn=' . $fetch['rBy'] . '">' . $fetch['rBy'] . '</a>
+                            <a href="' . $website_url . '/admin?a=users&manage=' . $fetch['rBy'] . '">' . $fetch['rBy'] . '</a>
                         </td>
                         <td>
                             ' . $fetch['warningDate'] . '
                         </td>
-                    </tr>';
-
-                $x++;
-            }
-
-            return $str;
-        }
-
-        public function getRecentReports($amount = NULL){
-            global $website_url;
-            
-            $query = $this->handler->prepare('SELECT reports.*, u.username AS rBy, uo.username AS rr, warningnames.warningInfo, videos.v_filename AS v_filename, videos.v_title AS title FROM reports LEFT JOIN users AS u ON u.u_id = reports.u_reporter_id LEFT JOIN users AS uo ON uo.u_id = u_reported_id LEFT JOIN warningnames ON warningnames.wn_id = reports.wn_id LEFT JOIN videos ON videos.v_id = reports.v_id ORDER BY reports.reportDate DESC');
-            $query->execute();
-                
-            $x = 0;
-            $str = null;
-            
-            while($fetch = $query->fetch(PDO::FETCH_ASSOC)){
-                $str .= '
-                    <tr style="' . (($x%2 == 0)? 'background: #e3e3e3' : '') . '">
                         <td>
-                            ' . $fetch['warningInfo'] . '
-                        </td>
-                        <td>
-                            <a href="' . $website_url . '/watch?v=' . $fetch['v_filename'] . '">' . wordwrap($fetch['title'], 25, '<br />', true) . '</a>
-                        </td>
-                        <td>
-                            <a href="' . $website_url . '/admin?a=users&warn=' . $fetch['rBy'] . '">' . $fetch['rBy'] . '</a>
-                        </td>
-                        <td>
-                            <a href="' . $website_url . '/admin?a=users&warn=' . $fetch['rr'] . '">' . $fetch['rr'] . '</a>
-                        </td>
-                        <td>
-                            ' . $fetch['reportDate'] . '
+                            <a href="' . $website_url . '/admin?a=users&manage=' . $username . '&removeWarning=' . '' . '">' . ((1 == 1)? '' : '') . '</a>
                         </td>
                     </tr>';
 

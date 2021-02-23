@@ -4,7 +4,7 @@
             if($user->loggedIn()){
                 $channelName = $user->getSessionUsername();
         ?>
-                <h2>Edit profile</h2>
+                <h1>Edit profile</h1>
                 You can edit your profile here.
                 <form method="POST" enctype="multipart/form-data">
                     <div class="input-group margin-bottom-sm" style="margin-bottom: 5px;">

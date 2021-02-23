@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <h2>Account activation</h2><hr />
+        <h1>Account activation</h1><hr />
         <?php
             if(isset($_GET['code'])){
                 $code = htmlentities($_GET['code'], ENT_QUOTES, 'UTF-8');

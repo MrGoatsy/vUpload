@@ -1,10 +1,12 @@
 <?php
     if($user->isBanned()){
+        $user->logout();
 ?>
-        <h3>Banned temp page</h3>
+        <h1>You are banned.</h1><hr />
+        You will now be logged out.
 <?php
     }
     else{
-        header('Refresh:0; url=' . $website_url);
+        header('Location: ' . $website_url);
     }
 ?>

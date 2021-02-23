@@ -2,7 +2,7 @@
     class other{
         public function execInBackground($cmd) {
             if (PHP_OS === "WINNT"){
-                pclose(popen("start /B ". $cmd, "r"));
+                exec('start /B C:\xampp\php\php.exe -f index.php r');
             }
             else{
                 exec($cmd . " > /dev/null &");  

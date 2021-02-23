@@ -15,7 +15,7 @@
                 ?>
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
-                    <h2>Login</h2><hr />
+                    <h1>Login</h1><hr />
                     <form method="post">
                         <div class="input-group margin-bottom-sm" style="margin-bottom: 5px;">
                           <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
@@ -49,7 +49,7 @@
                     <a href="<?php echo $website_url; ?>p/forgotpassword">Forgot password?</a>
                 </div>
                 <div class="col-md-5">
-                    <h2>Register</h2><hr />
+                    <h1>Register</h1><hr />
                     <form method="post">
                         <div class="input-group margin-bottom-sm" style="margin-bottom: 5px;">
                           <span class="input-group-text"><i class="bi bi-person-fill"></i></span>

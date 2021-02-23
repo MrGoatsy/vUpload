@@ -240,7 +240,7 @@
 <div class="row">
 	<div class="col-md-2">
 	</div>
-	<div class="col-md-8"><?php echo $website_url . '/videos/users/thumbnails/' . $video->getDetails('', $fileName, 'thumbnail'); ?>
+	<div class="col-md-8">
 	<div style="margin-top: 5px;"></div>
 		<video poster="" id="player" data-poster="<?php echo $website_url . '/videos/users/thumbnails/' . $video->getDetails('', $fileName, 'thumbnail'); ?>" controls crossorigin playsinline >
 			<source src="<?php echo $website_url; ?>/videos/users/<?php echo $video->getDetails('', $fileName, 'videoURL'); ?>" type="video/<?php echo $video->getDetails('', $fileName, 'extension'); ?>" size="576">
@@ -249,7 +249,7 @@
 		<table style="width: 100%;" class="table table-bordered border border-dark">
 			<tr>
 				<td style='width: 90%; max-width: 1280px;'>
-					<h3><?php echo $video->getDetails('', $fileName, 'title'); ?></h3>
+					<h1><?php echo $video->getDetails('', $fileName, 'title'); ?></h1>
 				</td>
 				<td align=center>
 					<table>

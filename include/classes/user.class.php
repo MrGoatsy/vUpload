@@ -398,7 +398,7 @@
                                 <a href="$website_url/channel/$username">
                                     $avatar
                                 </a>
-                                <a href="$website_url/admin?a=users&warn=$username" class="btn btn-sm btn-warning" style="color: black;">Warn</a>
+                                <a href="$website_url/admin?a=users&manage=$username" class="btn btn-sm btn-warning" style="color: black;">Manage</a>
                             </td>
                             <td class="w-100">
                                 <div style="margin-left: 10px;">
@@ -420,6 +420,25 @@
             else{
                 //No results
             }
+        }
+
+        public function setRank($username, $rank){
+            global $website_url;
+            
+            $queryr = $this->handler->prepare('SELECT * FROM ranks WHERE r_id = :rank');
+            $queryr->execute([
+                ':rank' => $rank
+            ]);
+            
+            if($queryr->rowCount()){
+                $query = $this->handler->prepare('UPDATE users LEFT JOIN ranks AS r ON r.r_id = :rank SET rank = r.rankValue WHERE username = :username');
+                $query->execute([
+                    ':rank'     => $rank,
+                    ':username' => $username
+                ]);
+            }
+
+            header('Location: ' . $website_url . '/admin?a=users&manage=' . $username);
         }
     }
 ?>

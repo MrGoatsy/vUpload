@@ -4,23 +4,20 @@
     if(isset($_GET['p']) && $_GET['p'] == 'watch'){
         $fileName = $purifier->purify($_GET['v']);
     }
-    if($user->isBanned()){
-        include'pages/accountstatus.php';
-    }
-        else{
-        if($user->loggedIn()){
-            $queryUser = $handler->prepare('SELECT * FROM users WHERE username = :username');
-            $queryUser->execute([
-                ':username' => $_SESSION[$uniqueCode]
-            ]);
+    
+    if($user->loggedIn()){
+        $queryUser = $handler->prepare('SELECT * FROM users WHERE username = :username');
+        $queryUser->execute([
+            ':username' => $_SESSION[$uniqueCode]
+        ]);
 
-            $fetchUser = $queryUser->fetch(PDO::FETCH_ASSOC);
-            $queryPermissions = $handler->query('SELECT * FROM ranks WHERE rankValue =' . $fetchUser['rank']);
-            $fetchPermissions = $queryPermissions->fetch(PDO::FETCH_ASSOC);
-        }
-        else{
-            $fetchUser = NULL;
-        }
+        $fetchUser = $queryUser->fetch(PDO::FETCH_ASSOC);
+        $queryPermissions = $handler->query('SELECT * FROM ranks WHERE rankValue =' . $fetchUser['rank']);
+        $fetchPermissions = $queryPermissions->fetch(PDO::FETCH_ASSOC);
+    }
+    else{
+        $fetchUser = NULL;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,118 +51,9 @@
 
     <!-- PLYR media player -->
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.3/plyr.css" />
+    <script src="https://cdn.plyr.io/3.6.3/plyr.js" defer></script>
 
-    <!--<link href="<?php echo $website_url; ?>/css/main.css" rel="stylesheet" />-->
-    <!--Link above doesn't work-->
-    <style>
-        @import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
-        @import url(http://fonts.googleapis.com/css?family=Open+Sans);
-
-        /** {
-            border: 1px solid;
-        }*/
-
-        .textbox {
-            height:50px;
-            width:70%;
-            font-size:30px;
-        }
-
-        .textboxlink {
-            width:55%;
-            text-align:center;
-        }
-
-        .tableform {
-            width:90%;
-            text-align:center;
-            margin:0 auto;
-        }
-        h1 {
-            font-size:30px;
-            margin:0px;
-        }
-        h2 {
-            font-size:25px;
-            margin:0px;
-        }
-        h3 {
-            font-size:20px;
-            margin:0px;
-        }
-        h4 {
-            font-size:18px;
-            margin:0px;
-        }
-        h5 {
-            font-size:15px;
-            margin:0px;
-        }
-        .middle {
-            min-height:400px;
-        }
-        .vmiddle {
-            vertical-align:middle !important;
-        }
-        .empty{
-            display: none;
-        }
-        .tableform th,.tableform td {
-            border-top:none !important;
-        }
-        .numberwidth {
-            width:20px;
-        }
-        .title {
-            font-size:25px;
-            margin-top:10px;
-        }
-        hr{
-            height: 1px;
-            background-color: #000000;
-        }
-        a{
-            text-decoration: none !important;
-        }
-        .avatar{
-            float: left;
-            margin: 0 10px 10px 0;
-            width: 64px;
-            height: 64px;
-        }
-        .threadtd{
-            vertical-align: top;
-        }
-        .profileSpan{
-            margin-left: 5px;
-        }
-        .note-group-select-from-files {
-        display: none !important;
-        }
-        .note-editor .note-editable {
-            line-height: 1 !important;
-        }
-        .site {
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
-        }
-        .site-content {
-        flex: 1;
-        }
-        .tableBorder{
-        border: 1px solid #000000 !important;
-        }
-        .customButton{
-            background: none !important;
-            color: inherit !important;
-            border: none !important;
-            padding: 0 !important;
-            font: inherit !important;
-            cursor: pointer !important;
-            outline: inherit !important;
-        }
-    </style>
+    <link href="<?php echo $website_url; ?>/css/main.css" rel="stylesheet" />
     
 </head>
 <body class="site d-flex flex-column min-vh-100">
@@ -177,7 +65,10 @@
     <main class="site-content flex-fill">
         <div class="container-fluid">
             <?php
-                if(isset($_GET['p'])){
+                if($user->isBanned()){
+                    include'pages/accountstatus.php';
+                }
+                elseif(isset($_GET['p'])){
                     if(file_exists('pages/' . $_GET['p'] . '.php')){
                         include'pages/' . $_GET['p'] . '.php';
                     }
@@ -214,9 +105,5 @@
             ?>
 
     </footer>
-    <script src="https://cdn.plyr.io/3.6.3/plyr.js"></script>
 </body>
 </html>
-<?php
-    }
-?>

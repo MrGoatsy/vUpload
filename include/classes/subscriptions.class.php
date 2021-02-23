@@ -15,7 +15,7 @@
         public function getSubs(){
             global $website_url;
 
-            $query  = $this->handler->prepare('SELECT * FROM videos WHERE u_id = (SELECT u_makerId FROM subscriptions WHERE u_followerId = :userId)');
+            $query  = $this->handler->prepare('SELECT * FROM videos WHERE u_id = (SELECT u_makerId FROM subscriptions WHERE u_followerId = :userId) AND v_hidden = 0');
             $query->execute([
                 ':userId'   => $this->user->getUserId()
             ]);
