@@ -34,7 +34,7 @@ https://ffmpeg.org/
 5. In `php.ini` you need to add the following at the bottom of your extensions:
    - `extension=php_ffmpeg.dll`
 
-6. You also need to remove the ';' from this:
+6. You also need to remove the ';' from the following:
    - `;extension=gd`
 7. Optionally you can edit `lang.php` located in the `include` folder if you want to change the language of most of the action/error messages.
 8. It should be working now.
