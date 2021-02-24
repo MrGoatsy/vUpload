@@ -42,13 +42,17 @@
                         ':u_reported_id' => $fetch['u_id']
                     ]);
 
-                    $fetch = $queryw->fetch(PDO::FETCH_ASSOC);
+                    $fetchw = $queryw->fetch(PDO::FETCH_ASSOC);
                     $points = null;
                     
-                    if($fetch['warningPoints'] >= 100){
-                        $query = $this->handler->prepare('UPDATE users SET rank = 0 WHERE username = :username');
+                    if($fetchw['warningPoints'] >= 100){
+                        $query  = $this->handler->prepare('UPDATE users SET rank = 0 WHERE username = :username');
+                        $queryv = $this->handler->prepare('UPDATE videos SET v_hidden = 1 WHERE u_id = :u_id');
                         $query->execute([
                             ':username' => $username
+                        ]);
+                        $queryv->execute([
+                            ':u_id' => $fetch['u_id']
                         ]);
                     }
                     header('Location: ' . $website_url . '/admin?a=users&manage=' . $username);
@@ -74,7 +78,7 @@
             ]);
             
             $fetch = $query->fetch(PDO::FETCH_ASSOC);
-            //echo $query->rowCount() . $queryr->rowCount() . $this->user->getSessionRank() . $fetch['rank']; die();
+            
             if($query->rowCount() && !$queryr->rowCount() && $this->user->getSessionRank() >= $fetch['rank']){
                 $points = $this->handler->prepare('SELECT * FROM warningnames WHERE wn_id = :wn_id');
                 $points->execute([

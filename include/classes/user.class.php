@@ -1,6 +1,5 @@
 <?php
     class user{
-        //Database handler
         private $handler,
                 $uniqueCode,
                 $purifier,
@@ -97,7 +96,7 @@
             ]);
 
             $email_code     = md5($username . microtime());
-            $rank           = ((!$users->rowCount())? 999 : 1);
+            $rank           = ((!$users->rowCount())? 999 : -1);
             
             if(!in_array($username, $registerLang["bannedUsername"])){
                 if(preg_match('/^[a-z\d]{2,255}$/i', $username)){
@@ -111,7 +110,7 @@
                                         ];
                                         $password   = password_hash($password, PASSWORD_BCRYPT, $options);
 
-                                        $query = $this->handler->prepare('INSERT INTO users (username, password, email, email_code, rank) VALUES (:username, :password, :email, :email_code, :rank)');
+                                        $query = $this->handler->prepare('INSERT INTO users (username, password, email, email_code, rank, u_ip) VALUES (:username, :password, :email, :email_code, :rank, :u_ip)');
 
                                         try{
                                         $query->execute([
@@ -119,7 +118,8 @@
                                             ':password'     => $password,
                                             ':email'        => $email,
                                             ':email_code'   => $email_code,
-                                            ':rank'         => $rank
+                                            ':rank'         => $rank,
+                                            ':u_ip'         => $_SERVER['REMOTE_ADDR']
                                         ]);
 
                                         if($mailer === 0){
@@ -187,8 +187,8 @@
                 $fetch  = $checkuser->fetch(PDO::FETCH_ASSOC);
                 $pw     = $fetch['password'];
                 
-                if(password_verify($_POST['password'], $pw)){
-                    if($fetch['active'] == 1){
+                if(password_verify($password, $pw)){
+                    if($fetch['rank'] >= 0){
                         $_SESSION[$this->uniqueCode] = $username;
 
                         return header("Location: $website_url");
@@ -203,6 +203,30 @@
             }
             else{
                 return $registerLang['userdoesnotexist'];
+            }
+        }
+        
+        //Activate user
+        public function activate($code){
+            global $registerLang;
+            
+            $query = $this->handler->prepare('SELECT * FROM users WHERE email_code = :code');
+            $query->execute([
+                ':code' => $code
+            ]);
+            
+            $fetch = $query->fetch(PDO::FETCH_ASSOC);
+
+            if($query->rowCount() && $fetch['rank'] == -1){
+                $query = $this->handler->prepare('UPDATE users SET rank = 1 WHERE email_code = :code');
+                $query->execute([
+                    ':code' => $code
+                ]);
+
+                return $registerLang['accountactivated'];
+            }
+            else{
+                return $registerLang['doesnotexist'];
             }
         }
 
@@ -431,11 +455,31 @@
             ]);
             
             if($queryr->rowCount()){
+                $fetch = $queryr->fetch(PDO::FETCH_ASSOC);
                 $query = $this->handler->prepare('UPDATE users LEFT JOIN ranks AS r ON r.r_id = :rank SET rank = r.rankValue WHERE username = :username');
                 $query->execute([
                     ':rank'     => $rank,
                     ':username' => $username
                 ]);
+
+                $queryu = $this->handler->prepare('SELECT * FROM users WHERE username = :username');
+                $queryu->execute([
+                    ':username' => $username
+                ]);
+                $fetchu = $queryu->fetch(PDO::FETCH_ASSOC);
+                
+                if($fetch['rankName'] == 'Banned'){
+                    $queryv = $this->handler->prepare('UPDATE videos SET v_hidden = 1 WHERE u_id = :u_id');
+                    $queryv->execute([
+                        ':u_id' => $fetchu['u_id']
+                    ]);
+                }
+                else{
+                    $queryv = $this->handler->prepare('UPDATE videos SET v_hidden = 0 WHERE u_id = :u_id');
+                    $queryv->execute([
+                        ':u_id' => $fetchu['u_id']
+                    ]);
+                }
             }
 
             header('Location: ' . $website_url . '/admin?a=users&manage=' . $username);

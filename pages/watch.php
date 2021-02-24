@@ -242,7 +242,7 @@
 	</div>
 	<div class="col-md-8">
 	<div style="margin-top: 5px;"></div>
-		<video poster="" id="player" data-poster="<?php echo $website_url . '/videos/users/thumbnails/' . $video->getDetails('', $fileName, 'thumbnail'); ?>" controls crossorigin playsinline >
+		<video poster="" id="player" data-poster="<?php echo $website_url . '/videos/users/thumbnails/' . $video->getDetails('', $fileName, 'videoFileName') . '.jpg'; ?>" controls crossorigin playsinline >
 			<source src="<?php echo $website_url; ?>/videos/users/<?php echo $video->getDetails('', $fileName, 'videoURL'); ?>" type="video/<?php echo $video->getDetails('', $fileName, 'extension'); ?>" size="576">
 		</video>
 		<div style="margin-top: 5px;"></div>

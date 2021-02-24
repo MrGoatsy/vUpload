@@ -3,15 +3,13 @@
         <?php
             if(isset($_GET['p'])){
                 $query = $handler->prepare('SELECT * FROM users WHERE username = :username');
-                try{
-                    $query->execute([
-                        ':username' => $channelName[3]
-                    ]);
-                }catch(PDOException $e){
-                    echo $error;
-                }
+                $query->execute([
+                    ':username' => $channelName[3]
+                ]);
 
-                if($query->rowCount()){
+                $fetch = $query->fetch(PDO::FETCH_ASSOC);
+
+                if($query->rowCount() && $fetch['rank'] != 0){
 
         ?>
             <div class="row" style="margin-top: 5px;">
@@ -48,16 +46,16 @@
                                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                                             <table style="width: 25%;" class="table table-bordered border border-dark">
                                                 <tr>
-                                                    <td style="width: 10%;"><div class="profileSpan">Joined:</div></td>
-                                                    <td style="width: 20%;"><div class="profileSpan"><?php echo substr($profile->getChannelDetails($channelName[3], ['joindate']), 0, 7); ?></div></td>
+                                                    <td style="width: 10%;">Joined:</td>
+                                                    <td style="width: 20%;"><?php echo substr($profile->getChannelDetails($channelName[3], ['joindate']), 0, 7); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 10%;"><div class="profileSpan">Videos uploaded:</div></td>
-                                                    <td style="width: 20%;"><div class="profileSpan"><?php echo $profile->getChannelDetails($channelName[3], ['videoCount']); ?></div></td>
+                                                    <td style="width: 10%;">Videos uploaded:</td>
+                                                    <td style="width: 20%;"><?php echo $profile->getChannelDetails($channelName[3], ['videoCount']); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 10%;"><div class="profileSpan">Website:</div></td>
-                                                    <td style="width: 20%;"><div class="profileSpan"><?php echo $profile->getChannelDetails($channelName[3], ['website']); ?></div></td>
+                                                    <td style="width: 10%;">Website:</td>
+                                                    <td style="width: 20%;"><?php echo $profile->getChannelDetails($channelName[3], ['website']); ?></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -65,7 +63,6 @@
                         </div>
                         <div class="col-md-12">
                         <h3>Uploads</h3><hr />
-                        <div class="row">
                             <?php
                                 for($i = 0; $i <= $video->getVideo($channelName[3], 'count', [$i])-1; $i++){
                                     $x = $i+1;
@@ -77,7 +74,7 @@
                                     <div class="col-md-3">
                                         <a href="<?php echo $website_url . '/watch?v=' . $video->getVideo($channelName[3], 'details', ['videoFileName', $i]); ?>" style="color: black;">
                                         <div class="card shadow-sm">
-                                            <div style="background: url(<?php echo $website_url . '/videos/users/thumbnails/' . $video->getVideo($channelName[3], 'details', ['thumbnail', $i]); ?>); padding-top: 56.25%; background-size:100% 100%;"></div>
+                                            <div style="background: url(<?php echo $website_url . '/videos/users/thumbnails/' . $video->getVideo($channelName[3], 'details', ['videoFileName', $i]) . '.jpg'; ?>); padding-top: 56.25%; background-size:100% 100%;"></div>
                                             <div class="card-body">
                                             <p class="card-text">
                                                 <b><?php echo $video->getVideo($channelName[3], 'details', ['title', $i]); ?></b>
@@ -92,8 +89,6 @@
                                 }
                             }
                             ?>
-                            <div style="margin-bottom: 15px;"></div>
-                        </div>
                     </div>
                 </div>
             </div>

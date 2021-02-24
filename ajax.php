@@ -35,7 +35,7 @@
                             $tags       = $_POST['tags'];
                             
                             if(strlen($tags) <= 100){
-                                $video->editVideo($_FILES, $fileName, $title, $desc, $tags);
+                                echo $video->editVideo($_FILES, $fileName, $title, $desc, $tags);
                             }
                             else{
                                 echo $tagLength;

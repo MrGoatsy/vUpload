@@ -26,7 +26,7 @@
             for($i = 0; $i <= $video->getVideo($user->getSessionUsername(), 'count', [$i])-1; $i++){
                 $x              = $i+1;
                 $fileName       = $video->getVideo($user->getSessionUsername(), 'details', ['videoFileName', $i]);
-                $thumbnail      = $video->getVideo($user->getSessionUsername(), 'details', ['thumbnail', $i]);
+                $thumbnail      = $fileName . '.jpg';
                 $title          = $video->getVideo($user->getSessionUsername(), 'details', ['title', $i]);
                 $views          = $video->getDetails('', $fileName, 'views');
                 $deleteVideo    = $website_url . '/yourvideos?delete=' . $fileName;

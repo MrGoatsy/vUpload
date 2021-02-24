@@ -116,7 +116,7 @@ CREATE TABLE `users` (
   `avatar` varchar(255) DEFAULT 'default.png',
   `email` varchar(255) NOT NULL,
   `email_code` varchar(32) NOT NULL,
-  `rank` int(10) DEFAULT 1,
+  `rank` int(10) DEFAULT -1,
   `active` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `username` (`username`),
@@ -134,7 +134,6 @@ CREATE TABLE `videos` (
   `v_title` varchar(500) DEFAULT NULL,
   `v_desc` varchar(10000) DEFAULT NULL,
   `v_tags` varchar(500) DEFAULT NULL,
-  `v_thumbnail` varchar(255) DEFAULT NULL,
   `v_hidden` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`v_id`),
   FULLTEXT KEY `v_title` (`v_title`,`v_desc`,`v_tags`)

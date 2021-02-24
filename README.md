@@ -10,11 +10,17 @@ Login with test account:
     Name: test
     Password: test123
 
-Thumbnail editing has been disabled to prevent abuse.
+Uploading and Thumbnail editing has been disabled to prevent abuse.
+
+#### Future ideas
+    - Report comments
+    - Upload to other servers via SFTP - Need to install PECL ssh2
+    - Process videos in the background
+    - Add messaging from user to user
+    - Redo classes with smaller functions
 
 #### Installation
 
-##### Notes
 This project users [Composer](http://https://github.com/composer/composer "Composer"), you need to install the following packages:
 1. `composer require ezyang/htmlpurifier`
 2. `composer require phpmailer/phpmailer`
@@ -41,3 +47,7 @@ https://ffmpeg.org/
 
 #### Current problems
 1. None that are known
+
+#### Notes
+
+There are some extra MySQL tables, these are for potential future features.

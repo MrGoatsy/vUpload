@@ -5,6 +5,7 @@
         <form method="POST">
             <input class="form-control alert-info" name="uSearch" type="text" value="<?php echo ((isset($_GET['uSearch']))? $_GET['uSearch'] : ''); ?>" placeholder="Press enter to search" aria-label="Search">
         </form>
+        <br />
 <?php
     }
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['uSearch'])){

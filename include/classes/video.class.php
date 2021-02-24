@@ -65,7 +65,7 @@
                                 //$this->other->execInBackground('process.php', $targetPath, $extension, $this->getDetails('', $fileName, 'id'));
                                 unlink($targetPath . '1.' . $extension);
 
-                                if($uploadServer == 1){
+                                /*if($uploadServer == 1){
                                     // set up basic connection
                                     $conn_id = ftp_connect($this->ftpServer['server'], $this->ftpServer['port']);
 
@@ -92,7 +92,7 @@
                                 }
                                 else{
                                     echo $message;
-                                }
+                                }*/
 
                                 if($query){
                                     if(isset($_FILES['thumbnail'])){
@@ -116,6 +116,8 @@
                                         ':u_id'     => $this->user->getUserId(),
                                         ':v_hidden' => 0
                                     ]);
+
+                                    echo $message;
                                 }
                             }
                             catch(PDOException $e){
@@ -159,11 +161,11 @@
         //Video upload handler
         public function editVideo($file, $fileName, $title, $desc, $tags){
             global $website_url,
-                   $coreLang,
                    $videoMessage;
 
             $message    = '!=[]_' . $videoMessage['videoSuccess'] . ' Click here to watch it: <a href="' . $website_url . '/watch?v=' . $fileName . '">' . $website_url . '/watch?v=' . $fileName . '</a>';
             $query      = $this->handler->prepare('UPDATE videos SET v_title = :v_title, v_desc = :v_desc, v_tags = :v_tags WHERE v_filename = :v_filename');
+            $str        = null;
             
             try{
                 $query->execute([
@@ -173,13 +175,13 @@
                     ':v_filename'   => $this->purifier->purify($fileName)
                 ]);
                 
-                echo $this->uploadThumbnail([$file, $fileName, 0]);
+                $str = $this->uploadThumbnail([$file, $fileName, 0]);
+                $str .= $message;
 
-                echo $message;
+                return $str;
             }
             catch(PDOException $e){
-                echo $this->errorHandler->dbError();
-                exit;
+                return $this->errorHandler->dbError();
             }
         }
 
@@ -190,7 +192,6 @@
 
             $file       = (($optional[2] == 0)? $optional[0]['thumbnail'] : $optional[0]);
             $fileName   = $optional[1];
-            $query      = $this->handler->prepare('UPDATE videos SET v_thumbnail = :v_thumbnail WHERE v_id = :v_id AND u_id = :u_id');
             $targetPath = "videos/users/thumbnails/" . $fileName;
 
             if(!empty($file['name'])){
@@ -206,12 +207,6 @@
                             if(move_uploaded_file($sourcePath, $targetPath . '1.' . $extension)){
                                 $this->imageConverter->convert($targetPath . '1.' . $extension, $targetPath . '.jpg', 100);
                                 unlink($targetPath . '1.' . $extension);
-                                
-                                $query->execute([
-                                    ':v_thumbnail'  => $fileName . '.jpg',
-                                    ':v_id'         => $this->getDetails('', $fileName, 'id'),
-                                    ':u_id'         => $this->user->getUserId()
-                                ]);
                             }
                         }
                     }
@@ -226,7 +221,7 @@
                 
                 $fetch = $queryT->fetch(PDO::FETCH_ASSOC);
                 
-                if($queryT->rowCount() && empty($fetch['v_thumbnail'])){
+                if($queryT->rowCount()){
                     $movie = 'videos/users/' . $fileName . '.mp4';
                     $sec = $ffprobe->format($movie)->get('duration') / rand(10,100);
                     $thumbnail = "videos/users/thumbnails/" . $fileName . '1.jpg';
@@ -238,12 +233,6 @@
                     
                     $this->imageConverter->convert($thumbnail, $targetPath . '.jpg', 100);
                     unlink($thumbnail);
-    
-                    $query->execute([
-                        ':v_thumbnail'  => $fileName,
-                        ':v_id'         => $this->getDetails('', $fileName, 'id'),
-                        ':u_id'         => $this->user->getUserId()
-                    ]);
                 }
             }
         }
@@ -318,6 +307,8 @@
         
         //Add like or dislike and updates if the users changes rating
         public function setLord($fileName, $optional = NULL){
+            global $coreLang;
+            
             $query = $this->handler->prepare('SELECT * FROM history WHERE v_id = :v_id AND u_id = :u_id');
             try{
             $query->execute([
@@ -554,9 +545,6 @@
                 }
                 elseif($optional[0] == 'title'){
                     return $fetch['v_title'];
-                }
-                elseif($optional[0] == 'thumbnail'){
-                    return $fetch['v_thumbnail'];
                 }
             }
         }
