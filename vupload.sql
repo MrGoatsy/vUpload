@@ -117,7 +117,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `email_code` varchar(32) NOT NULL,
   `rank` int(10) DEFAULT -1,
-  `active` tinyint(1) DEFAULT 0,
+  `u_ip` varchar(255) NOT NULL,
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
@@ -134,6 +134,7 @@ CREATE TABLE `videos` (
   `v_title` varchar(500) DEFAULT NULL,
   `v_desc` varchar(10000) DEFAULT NULL,
   `v_tags` varchar(500) DEFAULT NULL,
+  `v_thumbnail` varchar(255) DEFAULT NULL,
   `v_hidden` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`v_id`),
   FULLTEXT KEY `v_title` (`v_title`,`v_desc`,`v_tags`)
@@ -178,4 +179,4 @@ CREATE TABLE `warnings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2021-02-19 19:00:31
+-- 2021-02-24 00:32:42
