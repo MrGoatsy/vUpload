@@ -13,11 +13,11 @@ Login with test account:
 Uploading and Thumbnail editing has been disabled to prevent abuse.
 
 #### Future ideas
-    - Report comments
-    - Upload to other servers via SFTP - Need to install PECL ssh2
-    - Process videos in the background
-    - Add messaging from user to user
-    - Redo classes with smaller functions
+ - Report comments
+ - Upload to other servers via SFTP - Need to install PECL ssh2
+ - Process videos in the background
+ - Add messaging from user to user
+ - Redo classes with smaller functions
 
 #### Installation
 
