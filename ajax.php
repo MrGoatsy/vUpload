@@ -111,10 +111,10 @@
             $order          = $_GET['order'];
             
             if($_SESSION['currentAmount'] <= $commentClass->getCommentDetails($filename, ['rowCount', '', '', $_SESSION['currentAmount']])-1){
-                $username   = $commentClass->getCommentDetails($filename, ['user', 'username', $order, $_SESSION['currentAmount']]);
-                $avatar     = $commentClass->getCommentDetails($filename, ['user', 'avatar', $order, $_SESSION['currentAmount']]);
-                $date       = $commentClass->getCommentDetails($filename, ['date', '', $order, $_SESSION['currentAmount']]);
-                $comment    = $commentClass->getCommentDetails($filename, ['comment', '', $order, $_SESSION['currentAmount']]);
+                $username   = $commentClass->getCommentDetails($filename, ['user', 'username', $_SESSION['currentAmount']]);
+                $avatar     = $commentClass->getCommentDetails($filename, ['user', 'avatar', $_SESSION['currentAmount']]);
+                $date       = $commentClass->getCommentDetails($filename, ['date', '', $_SESSION['currentAmount']]);
+                $comment    = $commentClass->getCommentDetails($filename, ['comment', '', $_SESSION['currentAmount']]);
 
                 echo <<<EOD
                     <a href="$website_url/channel/$username">$avatar</a>

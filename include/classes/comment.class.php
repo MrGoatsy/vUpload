@@ -25,9 +25,10 @@
                 return $query->rowCount();
             }
             else{
-                $query = $this->handler->prepare('SELECT * FROM comments WHERE v_id = (SELECT v_id FROM videos WHERE v_fileName = :v_fileName) ORDER BY c_date ' . $optional[2] . ' LIMIT ' . $optional[3] . ',1');
+                $query = $this->handler->prepare('SELECT * FROM comments WHERE v_id = (SELECT v_id FROM videos WHERE v_fileName = :v_fileName) ORDER BY c_date DESC LIMIT :limitby,1');
                 $query->execute([
                     ':v_fileName'   => $fileName,
+                    ':limitby'      => $optional[2]
                 ]);
 
                 $fetch = $query->fetch(PDO::FETCH_ASSOC);
