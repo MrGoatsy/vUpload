@@ -185,9 +185,6 @@
                         <td>
                             ' . $fetch['warningDate'] . '
                         </td>
-                        <td>
-                            <a href="' . $website_url . '/admin?a=users&manage=' . $username . '&removeWarning=' . '' . '">' . ((1 == 1)? '' : '') . '</a>
-                        </td>
                     </tr>';
 
                 $x++;
