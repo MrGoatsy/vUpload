@@ -39,7 +39,7 @@
                             <div class="col-md-2 ">
                                 <a href="$website_url/watch?v=$fetch[v_fileName]">
                                     <div class="ratio ratio-16x9">
-                                        <img src="$website_url/videos/users/thumbnails/$fetch[v_thumbnail]"/>
+                                        <img src="$website_url/videos/users/thumbnails/$fetch[v_fileName].jpg"/>
                                     </div>
                                 </a>
                             </div>

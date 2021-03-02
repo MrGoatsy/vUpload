@@ -75,6 +75,7 @@
                                 <td style="border-bottom: 1px solid;">Current Warnings</td>
                                 <td style="border-bottom: 1px solid;">Warned by</td>
                                 <td style="border-bottom: 1px solid;">Date</td>
+                                <td style="border-bottom: 1px solid;">Remove?</td>
                             </tr>
                             ' . $warning->getWarnings($input) . '
                         </table>

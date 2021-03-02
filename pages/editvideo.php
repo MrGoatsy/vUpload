@@ -94,7 +94,7 @@
 		</div>
 		<div class="col-md-4">
         <h3>Current thumbnail:</h3>
-        <div style="background: url(<?php echo $website_url . '/videos/users/thumbnails/' . $video->getDetails('', $fileName, 'thumbnail'); ?>); padding-top: 56.25%; background-size:100% 100%;"></div>
+        <div style="background: url(<?php echo $website_url . '/videos/users/thumbnails/' . $video->getDetails('', $fileName, 'videoFileName') . '.jpg'; ?>); padding-top: 56.25%; background-size:100% 100%;"></div>
         <hr />
         <h3>Current video:</h3>
         <video controls crossorigin playsinline poster="" id="player">
