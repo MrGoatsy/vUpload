@@ -3,7 +3,7 @@
 vUpload is an open source video sharing script, think of it as a lightweight Youtube.
 
 #### Demo
-https://heekdevelopment.com/test/
+https://heekdevelopment.com/test/ - Offline
 
 Login with test account:
 
